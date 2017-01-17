@@ -30,12 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.stepTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // gameTimer
             // 
             this.gameTimer.Interval = 16;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
+            // 
+            // stepTimer
+            // 
+            this.stepTimer.Interval = 16;
             // 
             // Form1
             // 
@@ -59,6 +64,7 @@
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Timer stepTimer;
     }
 }
 

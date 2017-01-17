@@ -11,13 +11,24 @@ namespace Final
 {
     public partial class Form1 : Form
     {
+        //image declarations and stuff
+        Image upStand = Properties.Resources.up_stand;
+        Image rightStand = Properties.Resources.right_stand;
+        Image leftStand = Properties.Resources.left_stand;
+        Image downStand = Properties.Resources.down_stand;
+        Image upStep = Properties.Resources.up;
+        Image rightStep = Properties.Resources.right;
+        Image leftStep = Properties.Resources.left;
+        Image downStep = Properties.Resources.down;
+
         //initial starting values for Hero character and other stuff
-        int xHero = 72;
-        int yHero = 72;
+        int xHero = 336;
+        int yHero = 216;
         int speedHero = 5;
         int widthHero = 40;
         int heightHero = 40;
         bool legal = true;
+        string direction = "down";
 
         //sets rectangle around the obstacles
         Rectangle leftObstacle = new Rectangle(168, 168, 94, 144);
@@ -118,6 +129,7 @@ namespace Final
                 {
                     xHero = xHero + speedHero;
                 }
+                direction = "left";
             }
 
             if (downArrowDown == true)
@@ -130,6 +142,7 @@ namespace Final
                 {
                     yHero = yHero - speedHero;
                 }
+                direction = "down";
             }
 
             if (rightArrowDown == true)
@@ -142,6 +155,7 @@ namespace Final
                 {
                     xHero = xHero - speedHero;
                 }
+                direction = "right";
             }
 
             if (upArrowDown == true)
@@ -154,11 +168,10 @@ namespace Final
                 {
                     yHero = yHero + speedHero;
                 }
+                direction = "up";
             }
 
             #endregion
-
-
 
             //refresh the screen, which causes the Form1_Paint method to run
             Refresh();
@@ -166,8 +179,23 @@ namespace Final
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            //draw rectangle to screen
-            e.Graphics.FillRectangle(drawBrush, xHero, yHero, widthHero, heightHero);
+            //draw sprite
+            if (direction == "up")
+            {
+                e.Graphics.DrawImage(upStand, xHero + 2, yHero - 4, 36, 48);
+            }
+            else if (direction == "right")
+            {
+                e.Graphics.DrawImage(rightStand, xHero, yHero, 48, 48);
+            }
+            else if (direction == "left")
+            {
+                e.Graphics.DrawImage(leftStand, xHero, yHero, 48, 48);
+            }
+            else
+            {
+                e.Graphics.DrawImage(downStand, xHero - 1, yHero - 4, 42, 48);
+            }
         }
     }
 }
