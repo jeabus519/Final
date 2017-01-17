@@ -24,11 +24,13 @@ namespace Final
         //initial starting values for Hero character and other stuff
         int xHero = 336;
         int yHero = 216;
-        int speedHero = 5;
+        int speedHero = 3;
         int widthHero = 40;
         int heightHero = 40;
+        bool moving = false;
         bool legal = true;
         string direction = "down";
+        int timer;
 
         //sets rectangle around the obstacles
         Rectangle leftObstacle = new Rectangle(168, 168, 94, 144);
@@ -57,15 +59,19 @@ namespace Final
             {
                 case Keys.Left:
                     leftArrowDown = true;
+                    moving = true;
                     break;
                 case Keys.Down:
                     downArrowDown = true;
+                    moving = true;
                     break;
                 case Keys.Right:
                     rightArrowDown = true;
+                    moving = true;
                     break;
                 case Keys.Up:
                     upArrowDown = true;
+                    moving = true;
                     break;
                 default:
                     break;
@@ -79,15 +85,23 @@ namespace Final
             {
                 case Keys.Left:
                     leftArrowDown = false;
+                    moving = false;
+                    timer = 0;
                     break;
                 case Keys.Down:
                     downArrowDown = false;
+                    moving = false;
+                    timer = 0;
                     break;
                 case Keys.Right:
                     rightArrowDown = false;
+                    moving = false;
+                    timer = 0;
                     break;
                 case Keys.Up:
                     upArrowDown = false;
+                    moving = false;
+                    timer = 0;
                     break;
                 default:
                     break;
@@ -182,19 +196,71 @@ namespace Final
             //draw sprite
             if (direction == "up")
             {
-                e.Graphics.DrawImage(upStand, xHero + 2, yHero - 4, 36, 48);
+                if(timer <= 10)
+                {
+                    e.Graphics.DrawImage(upStand, xHero + 2, yHero - 4, 36, 48);
+                }
+                else if (timer <= 19)
+                {
+                    e.Graphics.DrawImage(upStep, xHero + 2, yHero - 4, 36, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(upStep, xHero + 2, yHero - 4, 36, 48);
+                    timer = 0;
+                }
             }
             else if (direction == "right")
             {
-                e.Graphics.DrawImage(rightStand, xHero, yHero, 48, 48);
+                if (timer <= 10)
+                {
+                    e.Graphics.DrawImage(rightStand, xHero + 2, yHero - 4, 36, 48);
+                }
+                else if (timer <= 19)
+                {
+                    e.Graphics.DrawImage(rightStep, xHero + 2, yHero - 4, 36, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(rightStep, xHero + 2, yHero - 4, 36, 48);
+                    timer = 0;
+                }
             }
             else if (direction == "left")
             {
-                e.Graphics.DrawImage(leftStand, xHero, yHero, 48, 48);
+                if (timer <= 10)
+                {
+                    e.Graphics.DrawImage(leftStand, xHero + 2, yHero - 4, 36, 48);
+                }
+                else if (timer <= 19)
+                {
+                    e.Graphics.DrawImage(leftStep, xHero + 2, yHero - 4, 36, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(leftStep, xHero + 2, yHero - 4, 36, 48);
+                    timer = 0;
+                }
             }
             else
             {
-                e.Graphics.DrawImage(downStand, xHero - 1, yHero - 4, 42, 48);
+                if (timer <= 10)
+                {
+                    e.Graphics.DrawImage(downStand, xHero + 2, yHero - 4, 36, 48);
+                }
+                else if (timer <= 19)
+                {
+                    e.Graphics.DrawImage(downStep, xHero + 2, yHero - 4, 36, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(downStep, xHero + 2, yHero - 4, 36, 48);
+                    timer = 0;
+                }
+            }
+            if (moving)
+            {
+                timer++;
             }
         }
     }
