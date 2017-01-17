@@ -200,101 +200,92 @@ namespace Final
 
             if (leftArrowDown == true)
             {
-                if (moving)
+                if (!attacking)
                 {
-                    xHero = xHero - speedHero;
+                    if (moving)
+                    {
+                        xHero = xHero - speedHero;
 
-                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
-                    checkCollision(player);
-                }
+                        player = new Rectangle(xHero, yHero, widthHero, heightHero);
+                        checkCollision(player);
+                    }
 
-                if (!legal)
-                {
-                    xHero = xHero + speedHero;
-                }
-                if (!movementPaused)
-                {
-                    direction = "left";
+                    if (!legal)
+                    {
+                        xHero = xHero + speedHero;
+                    }
+                    if (!movementPaused)
+                    {
+                        direction = "left";
+                    }
                 }
             }
 
             if (downArrowDown == true)
             {
-                if (moving)
+                if (!attacking)
                 {
-                    yHero = yHero + speedHero;
-                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
-                    checkCollision(player);
-                }
+                    if (moving)
+                    {
+                        yHero = yHero + speedHero;
+                        player = new Rectangle(xHero, yHero, widthHero, heightHero);
+                        checkCollision(player);
+                    }
 
-                if (!legal)
-                {
-                    yHero = yHero - speedHero;
-                }
-                if (!movementPaused)
-                {
-                    direction = "down";
+                    if (!legal)
+                    {
+                        yHero = yHero - speedHero;
+                    }
+                    if (!movementPaused)
+                    {
+                        direction = "down";
+                    }
                 }
             }
 
             if (rightArrowDown == true)
             {
-                if (moving)
+                if (!attacking)
                 {
-                    xHero = xHero + speedHero;
-                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
-                    checkCollision(player);
-                }
+                    if (moving)
+                    {
+                        xHero = xHero + speedHero;
+                        player = new Rectangle(xHero, yHero, widthHero, heightHero);
+                        checkCollision(player);
+                    }
 
-                if (!legal)
-                {
-                    xHero = xHero - speedHero;
-                }
-                if (!movementPaused)
-                {
-                    direction = "right";
+                    if (!legal)
+                    {
+                        xHero = xHero - speedHero;
+                    }
+                    if (!movementPaused)
+                    {
+                        direction = "right";
+                    }
                 }
             }
 
             if (upArrowDown == true)
             {
-                if (moving)
+                if (!attacking)
                 {
-                    yHero = yHero - speedHero;
-                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
-                    checkCollision(player);
-                }
+                    if (moving)
+                    {
+                        yHero = yHero - speedHero;
+                        player = new Rectangle(xHero, yHero, widthHero, heightHero);
+                        checkCollision(player);
+                    }
 
-                if (!legal)
-                {
-                    yHero = yHero + speedHero;
-                }
-                if (!movementPaused)
-                {
-                    direction = "up";
+                    if (!legal)
+                    {
+                        yHero = yHero + speedHero;
+                    }
+                    if (!movementPaused)
+                    {
+                        direction = "up";
+                    }
                 }
             }
-
-            if (spaceDown == true)
-            {
-                if(direction == "up")
-                {
-
-                }
-                else if (direction == "right")
-                {
-
-                }
-                else if (direction == "left")
-                {
-
-                }
-                else
-                {
-
-                } 
-            }
-
             #endregion
 
             #region attacks
@@ -304,7 +295,7 @@ namespace Final
             }
 
 
-            if (attackTimer >= 20)
+            if (attackTimer >= 10)
             {
                 attacking = false;
                 if (movementPaused)
@@ -368,15 +359,15 @@ namespace Final
                 {
                     if (timer <= 5)
                     {
-                        e.Graphics.DrawImage(rightStand, xHero - 4, yHero - 8, 36, 48);
+                        e.Graphics.DrawImage(rightStand, xHero - 4, yHero - 8, 48, 48);
                     }
                     else if (timer <= 9)
                     {
-                        e.Graphics.DrawImage(rightStep, xHero - 4, yHero - 8, 36, 48);
+                        e.Graphics.DrawImage(rightStep, xHero - 4, yHero - 8, 48, 48);
                     }
                     else
                     {
-                        e.Graphics.DrawImage(rightStep, xHero - 4, yHero - 8, 36, 48);
+                        e.Graphics.DrawImage(rightStep, xHero - 4, yHero - 8, 48, 48);
                         timer = 0;
                     }
                 }
@@ -385,21 +376,21 @@ namespace Final
             {
                 if (attacking)
                 {
-                    e.Graphics.DrawImage(leftAttack, xHero - 42, yHero - 8, 86, 48);
+                    e.Graphics.DrawImage(leftAttack, xHero - 47, yHero - 8, 86, 48);
                 }
                 else
                 {
                     if (timer <= 5)
                     {
-                        e.Graphics.DrawImage(leftStand, xHero - 4, yHero - 8, 36, 48);
+                        e.Graphics.DrawImage(leftStand, xHero - 4, yHero - 8, 48, 48);
                     }
                     else if (timer <= 9)
                     {
-                        e.Graphics.DrawImage(leftStep, xHero - 4, yHero - 8, 36, 48);
+                        e.Graphics.DrawImage(leftStep, xHero - 4, yHero - 8, 48, 48);
                     }
                     else
                     {
-                        e.Graphics.DrawImage(leftStep, xHero - 4, yHero - 8, 36, 48);
+                        e.Graphics.DrawImage(leftStep, xHero - 4, yHero - 8, 48, 48);
                         timer = 0;
                     }
                 }
@@ -414,15 +405,15 @@ namespace Final
                 {
                     if (timer <= 5)
                     {
-                        e.Graphics.DrawImage(downStand, xHero - 2, yHero - 4, 36, 48);
+                        e.Graphics.DrawImage(downStand, xHero - 2, yHero - 4, 45, 48);
                     }
                     else if (timer <= 9)
                     {
-                        e.Graphics.DrawImage(downStep, xHero - 1, yHero - 4, 36, 48);
+                        e.Graphics.DrawImage(downStep, xHero - 1, yHero - 4, 42, 48);
                     }
                     else
                     {
-                        e.Graphics.DrawImage(downStep, xHero - 1, yHero - 4, 36, 48);
+                        e.Graphics.DrawImage(downStep, xHero - 1, yHero - 4, 42, 48);
                         timer = 0;
                     }
                 }
