@@ -43,6 +43,7 @@ namespace Final
         Rectangle leftObstacle = new Rectangle(168, 168, 94, 144);
         Rectangle rightObstacle = new Rectangle(456, 168, 94, 144);
         Rectangle legalSpace = new Rectangle(111, 111, 501, 261);
+        Rectangle sword;
 
         //determines whether a key is being pressed or not - DO NOT CHANGE
         Boolean leftArrowDown, downArrowDown, rightArrowDown, upArrowDown, spaceDown;
@@ -214,6 +215,7 @@ namespace Final
                     {
                         xHero = xHero + speedHero;
                     }
+                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
                     if (!movementPaused)
                     {
                         direction = "left";
@@ -236,6 +238,7 @@ namespace Final
                     {
                         yHero = yHero - speedHero;
                     }
+                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
                     if (!movementPaused)
                     {
                         direction = "down";
@@ -258,6 +261,7 @@ namespace Final
                     {
                         xHero = xHero - speedHero;
                     }
+                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
                     if (!movementPaused)
                     {
                         direction = "right";
@@ -280,6 +284,7 @@ namespace Final
                     {
                         yHero = yHero + speedHero;
                     }
+                    player = new Rectangle(xHero, yHero, widthHero, heightHero);
                     if (!movementPaused)
                     {
                         direction = "up";
@@ -330,7 +335,8 @@ namespace Final
             {
                 if (attacking)
                 {
-                    e.Graphics.DrawImage(upAttack, xHero + 2, yHero - 40, 48, 84);
+                    e.Graphics.DrawImage(upAttack, xHero - 4, yHero - 40, 48, 84);
+                    sword = new Rectangle(xHero + 12, yHero - 40, 8, 32);
                 }
                 else
                 {
@@ -354,6 +360,7 @@ namespace Final
                 if (attacking)
                 {
                     e.Graphics.DrawImage(rightAttack, xHero + 2, yHero - 8, 86, 48);
+                    sword = new Rectangle(xHero + 54, yHero + 15, 34, 9);
                 }
                 else
                 {
@@ -377,6 +384,7 @@ namespace Final
                 if (attacking)
                 {
                     e.Graphics.DrawImage(leftAttack, xHero - 47, yHero - 8, 86, 48);
+                    sword = new Rectangle(xHero - 47, yHero + 15, 34, 9);
                 }
                 else
                 {
@@ -400,6 +408,7 @@ namespace Final
                 if (attacking)
                 {
                     e.Graphics.DrawImage(downAttack, xHero - 4, yHero - 4, 48, 81);
+                    sword = new Rectangle(xHero + 18, yHero + 45, 8, 32);
                 }
                 else
                 {
