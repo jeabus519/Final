@@ -11,7 +11,7 @@ namespace Final
 {
     public partial class Form1 : Form
     {
-        //image declarations and stuff
+        #region image declarations and stuff
         Image upStand = Properties.Resources.up_stand;
         Image rightStand = Properties.Resources.right_stand;
         Image leftStand = Properties.Resources.left_stand;
@@ -35,6 +35,7 @@ namespace Final
         Image left2DN = Properties.Resources.DN_left_step;
         Image downDN = Properties.Resources.DN_down_stand;
         Image down2DN = Properties.Resources.DN_down_step;
+        #endregion
 
         //initial starting values for Hero character and other stuff
         int xHero = 336;
@@ -43,15 +44,21 @@ namespace Final
         int widthHero = 40;
         int heightHero = 40;
 
-        //initial starting values for Darknut
-        int xDN = 599;
-        int yDN = 359;
-        int widthDN = 45;
-        int heightDN = 45;
+        #region initial starting values and other variables for Darknut
+        int xDN = 72;
+        int yDN = 72;
+        int speedDN = 3;
+        int widthDN = 48;
+        int heightDN = 48;
         int timerDN;
+        int stepCountDN;
         string directionDN = "down";
+        int directionDNHold;
+        int distDNHold;
+        bool legalDN = true;
+        #endregion
 
-        //various variables for varying variable things
+        #region various variables for varying variable things
         bool moving = false;
         bool legal = true;
         bool movementPaused = false;
@@ -59,11 +66,16 @@ namespace Final
         string direction = "down";
         int timer;
         int attackTimer;
+        Random rnd = new Random();
+        #endregion
 
         //sets rectangle around the obstacles
-        Rectangle leftObstacle = new Rectangle(168, 168, 94, 144);
-        Rectangle rightObstacle = new Rectangle(456, 168, 94, 144);
-        Rectangle legalSpace = new Rectangle(111, 111, 501, 261);
+        Rectangle leftObstacle = new Rectangle(168, 168, 95, 143);
+        Rectangle rightObstacle = new Rectangle(456, 168, 95, 143);
+        Rectangle nWall = new Rectangle(1, 1, 720, 71);
+        Rectangle eWall = new Rectangle(647, 1, 71, 480);
+        Rectangle sWall = new Rectangle(1, 407, 720, 71);
+        Rectangle wWall = new Rectangle(1, 1, 71, 480);
         Rectangle sword;
 
         //determines whether a key is being pressed or not - DO NOT CHANGE
@@ -79,6 +91,7 @@ namespace Final
             //start the timer when the program starts
             gameTimer.Enabled = true;
             gameTimer.Start();
+            genDNPath();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -198,7 +211,10 @@ namespace Final
 
         public void checkCollision(Rectangle player)
         {
-            if (!(player.IntersectsWith(legalSpace))
+            if (player.IntersectsWith(nWall)
+                || player.IntersectsWith(eWall)
+                || player.IntersectsWith(sWall)
+                || player.IntersectsWith(wWall)
                 || player.IntersectsWith(leftObstacle)
                 || player.IntersectsWith(rightObstacle))
                 
@@ -209,12 +225,105 @@ namespace Final
             {
                 legal = true;
             }
+
+
+        }
+
+        public void checkDNCollision(Rectangle darknut)
+        {
+            if (darknut.IntersectsWith(nWall)
+                || darknut.IntersectsWith(eWall)
+                || darknut.IntersectsWith(sWall)
+                || darknut.IntersectsWith(wWall)
+                || darknut.IntersectsWith(leftObstacle)
+                || darknut.IntersectsWith(rightObstacle))
+
+            {
+                legalDN = false;
+            }
+            else
+            {
+                legalDN = true;
+            }
+        }
+
+        public void genDNPath()
+        {
+            #region get direction
+            directionDNHold = rnd.Next(1, 4);
+
+            if(directionDN == "up")
+            {
+                switch (directionDNHold)
+                {
+                    case 1:
+                        directionDN = "down";
+                        break;
+                    case 2:
+                        directionDN = "left";
+                        break;
+                    case 3:
+                        directionDN = "right";
+                        break;
+                }
+            }
+            else if (directionDN == "left")
+            {
+                switch (directionDNHold)
+                {
+                    case 1:
+                        directionDN = "down";
+                        break;
+                    case 2:
+                        directionDN = "up";
+                        break;
+                    case 3:
+                        directionDN = "right";
+                        break;
+                }
+            }
+            else if (directionDN == "right")
+            {
+                switch (directionDNHold)
+                {
+                    case 1:
+                        directionDN = "down";
+                        break;
+                    case 2:
+                        directionDN = "left";
+                        break;
+                    case 3:
+                        directionDN = "up";
+                        break;
+                }
+            }
+            else if (directionDN == "down")
+            {
+                switch (directionDNHold)
+                {
+                    case 1:
+                        directionDN = "up";
+                        break;
+                    case 2:
+                        directionDN = "left";
+                        break;
+                    case 3:
+                        directionDN = "right";
+                        break;
+                }
+            }
+            #endregion
+
+            //get distance
+            distDNHold = rnd.Next(1, 6);
+            stepCountDN = 0;
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             //sets player hitbox
             Rectangle player;
+            Rectangle darknut;
 
             //
 
@@ -240,7 +349,6 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "left";
-                        directionDN = "left";
                     }
                 }
             }
@@ -264,7 +372,6 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "down";
-                        directionDN = "down";
                     }
                 }
             }
@@ -288,7 +395,6 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "right";
-                        directionDN = "right";
                     }
                 }
             }
@@ -312,7 +418,6 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "up";
-                        directionDN = "up";
                     }
                 }
             }
@@ -349,7 +454,65 @@ namespace Final
             #endregion
 
             #region darknut stuff
+            if(directionDN == "up")
+            {
+                yDN = yDN - speedDN;
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+                checkDNCollision(darknut);
 
+                if (!legalDN)
+                {
+                    yDN = yDN + speedDN;
+                    genDNPath();
+                }
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+            else if (directionDN == "left")
+            {
+                xDN = xDN - speedDN;
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+                checkDNCollision(darknut);
+
+                if (!legalDN)
+                {
+                    xDN = xDN + speedDN;
+                    genDNPath();
+                }
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+            else if (directionDN == "right")
+            {
+                xDN = xDN + speedDN;
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+                checkDNCollision(darknut);
+
+                if (!legalDN)
+                {
+                    xDN = xDN - speedDN;
+                    genDNPath();
+                }
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+            else
+            {
+                yDN = yDN + speedDN;
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+                checkDNCollision(darknut);
+
+                if (!legalDN)
+                {
+                    yDN = yDN - speedDN;
+                    genDNPath();
+                }
+                darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+
+            stepCountDN = stepCountDN + 3;
+
+            if(stepCountDN >= distDNHold * 48)
+            {
+                genDNPath();
+            }
             #endregion
 
             //refresh the screen, which causes the Form1_Paint method to run
@@ -465,65 +628,65 @@ namespace Final
             #region draw darknut
             if (directionDN == "up")
             {
-                if (timerDN <= 5)
+                if (timerDN <= 7)
                 {
-                    e.Graphics.DrawImage(upDN, xDN, yDN - 2, 45, 48);
+                    e.Graphics.DrawImage(upDN, xDN + 2, yDN, 45, 48);
                 }
-                else if (timerDN <= 9)
+                else if (timerDN <= 13)
                 {
-                    e.Graphics.DrawImage(up2DN, xDN, yDN - 2, 45, 48);
+                    e.Graphics.DrawImage(up2DN, xDN + 2, yDN, 45, 48);
                 }
                 else
                 {
-                    e.Graphics.DrawImage(up2DN, xDN, yDN - 2, 45, 48);
+                    e.Graphics.DrawImage(up2DN, xDN + 2, yDN, 45, 48);
                     timerDN = 0;
                 }
             }
             else if (directionDN == "left")
             {
-                if (timerDN <= 5)
+                if (timerDN <= 7)
                 {
-                    e.Graphics.DrawImage(leftDN, xDN - 2, yDN - 2, 48, 48);
+                    e.Graphics.DrawImage(leftDN, xDN, yDN, 48, 48);
                 }
-                else if (timerDN <= 9)
+                else if (timerDN <= 13)
                 {
-                    e.Graphics.DrawImage(left2DN, xDN - 2, yDN, 48, 45);
+                    e.Graphics.DrawImage(left2DN, xDN, yDN + 2, 48, 45);
                 }
                 else
                 {
-                    e.Graphics.DrawImage(left2DN, xDN - 2, yDN, 48, 45);
+                    e.Graphics.DrawImage(left2DN, xDN, yDN + 2, 48, 45);
                     timerDN = 0;
                 }
             }
             else if (directionDN == "right")
             {
-                if (timerDN <= 5)
+                if (timerDN <= 7)
                 {
-                    e.Graphics.DrawImage(rightDN, xDN - 2, yDN - 2, 48, 48);
+                    e.Graphics.DrawImage(rightDN, xDN, yDN, 48, 48);
                 }
-                else if (timerDN <= 9)
+                else if (timerDN <= 13)
                 {
-                    e.Graphics.DrawImage(right2DN, xDN - 2, yDN, 48, 45);
+                    e.Graphics.DrawImage(right2DN, xDN, yDN + 2, 48, 45);
                 }
                 else
                 {
-                    e.Graphics.DrawImage(right2DN, xDN - 2, yDN, 48, 45);
+                    e.Graphics.DrawImage(right2DN, xDN, yDN + 2, 48, 45);
                     timerDN = 0;
                 }
             }
             else
             {
-                if (timerDN <= 5)
+                if (timerDN <= 7)
                 {
-                    e.Graphics.DrawImage(downDN, xDN, yDN - 2, 45, 48);
+                    e.Graphics.DrawImage(downDN, xDN + 2, yDN, 45, 48);
                 }
-                else if (timerDN <= 9)
+                else if (timerDN <= 13)
                 {
-                    e.Graphics.DrawImage(down2DN, xDN, yDN - 2, 45, 48);
+                    e.Graphics.DrawImage(down2DN, xDN + 2, yDN, 45, 48);
                 }
                 else
                 {
-                    e.Graphics.DrawImage(down2DN, xDN, yDN - 2, 45, 48);
+                    e.Graphics.DrawImage(down2DN, xDN + 2, yDN, 45, 48);
                     timerDN = 0;
                 }
             }
