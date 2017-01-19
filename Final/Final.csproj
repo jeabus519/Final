@@ -70,7 +70,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.manifest" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -149,6 +151,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\up attack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN down stand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN down step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN left stand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN left step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN right stand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN right step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN up stand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DN up step.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

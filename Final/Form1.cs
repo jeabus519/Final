@@ -16,14 +16,25 @@ namespace Final
         Image rightStand = Properties.Resources.right_stand;
         Image leftStand = Properties.Resources.left_stand;
         Image downStand = Properties.Resources.down_stand;
+
         Image upStep = Properties.Resources.up;
         Image rightStep = Properties.Resources.right;
         Image leftStep = Properties.Resources.left;
         Image downStep = Properties.Resources.down;
+
         Image upAttack = Properties.Resources.up_attack;
         Image rightAttack = Properties.Resources.right_attack;
         Image leftAttack = Properties.Resources.left_attack;
         Image downAttack = Properties.Resources.down_attack;
+
+        Image upDN = Properties.Resources.DN_up_stand;
+        Image up2DN = Properties.Resources.DN_up_step;
+        Image rightDN = Properties.Resources.DN_right_stand;
+        Image right2DN = Properties.Resources.DN_right_step;
+        Image leftDN = Properties.Resources.DN_left_stand;
+        Image left2DN = Properties.Resources.DN_left_step;
+        Image downDN = Properties.Resources.DN_down_stand;
+        Image down2DN = Properties.Resources.DN_down_step;
 
         //initial starting values for Hero character and other stuff
         int xHero = 336;
@@ -31,6 +42,16 @@ namespace Final
         int speedHero = 4;
         int widthHero = 40;
         int heightHero = 40;
+
+        //initial starting values for Darknut
+        int xDN = 599;
+        int yDN = 359;
+        int widthDN = 45;
+        int heightDN = 45;
+        int timerDN;
+        string directionDN = "down";
+
+        //various variables for varying variable things
         bool moving = false;
         bool legal = true;
         bool movementPaused = false;
@@ -219,6 +240,7 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "left";
+                        directionDN = "left";
                     }
                 }
             }
@@ -242,6 +264,7 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "down";
+                        directionDN = "down";
                     }
                 }
             }
@@ -265,6 +288,7 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "right";
+                        directionDN = "right";
                     }
                 }
             }
@@ -288,6 +312,7 @@ namespace Final
                     if (!movementPaused)
                     {
                         direction = "up";
+                        directionDN = "up";
                     }
                 }
             }
@@ -321,6 +346,10 @@ namespace Final
             {
                 attackTimer++;
             }
+            #endregion
+
+            #region darknut stuff
+
             #endregion
 
             //refresh the screen, which causes the Form1_Paint method to run
@@ -431,6 +460,74 @@ namespace Final
             {
                 timer++;
             }
+            #endregion
+
+            #region draw darknut
+            if (directionDN == "up")
+            {
+                if (timerDN <= 5)
+                {
+                    e.Graphics.DrawImage(upDN, xDN, yDN - 2, 45, 48);
+                }
+                else if (timerDN <= 9)
+                {
+                    e.Graphics.DrawImage(up2DN, xDN, yDN - 2, 45, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(up2DN, xDN, yDN - 2, 45, 48);
+                    timerDN = 0;
+                }
+            }
+            else if (directionDN == "left")
+            {
+                if (timerDN <= 5)
+                {
+                    e.Graphics.DrawImage(leftDN, xDN - 2, yDN - 2, 48, 48);
+                }
+                else if (timerDN <= 9)
+                {
+                    e.Graphics.DrawImage(left2DN, xDN - 2, yDN, 48, 45);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(left2DN, xDN - 2, yDN, 48, 45);
+                    timerDN = 0;
+                }
+            }
+            else if (directionDN == "right")
+            {
+                if (timerDN <= 5)
+                {
+                    e.Graphics.DrawImage(rightDN, xDN - 2, yDN - 2, 48, 48);
+                }
+                else if (timerDN <= 9)
+                {
+                    e.Graphics.DrawImage(right2DN, xDN - 2, yDN, 48, 45);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(right2DN, xDN - 2, yDN, 48, 45);
+                    timerDN = 0;
+                }
+            }
+            else
+            {
+                if (timerDN <= 5)
+                {
+                    e.Graphics.DrawImage(downDN, xDN, yDN - 2, 45, 48);
+                }
+                else if (timerDN <= 9)
+                {
+                    e.Graphics.DrawImage(down2DN, xDN, yDN - 2, 45, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(down2DN, xDN, yDN - 2, 45, 48);
+                    timerDN = 0;
+                }
+            }
+            timerDN++;
             #endregion
         }
     }

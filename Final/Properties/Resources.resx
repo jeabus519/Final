@@ -121,6 +121,30 @@
   <data name="arena" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arena.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DN_down_stand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN down stand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_down_step" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN down step.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_left_stand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN left stand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_left_step" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN left step.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_right_stand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN right stand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_right_step" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN right step.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_up_stand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN up stand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DN_up_step" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DN up step.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
