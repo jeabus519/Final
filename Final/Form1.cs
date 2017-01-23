@@ -44,18 +44,32 @@ namespace Final
         int widthHero = 40;
         int heightHero = 40;
 
-        #region initial starting values and other variables for Darknut
-        int xDN = 72;
-        int yDN = 72;
+        #region initial starting values and other variables for Darknuts
+        //universal
         int speedDN = 3;
         int widthDN = 48;
         int heightDN = 48;
         int timerDN;
-        int stepCountDN;
+
+        //top left (1)
+        int xDN = 599;
+        int yDN = 72;
+        int stepCountDN = 0;
         string directionDN = "down";
         int directionDNHold;
         int distDNHold;
         bool legalDN = true;
+        bool DN180 = false;
+
+        //top right (2)
+        int xDN2 = 72;
+        int yDN2 = 72;
+        int stepCountDN2 = 0;
+        string directionDN2 = "down";
+        int directionDN2Hold;
+        int distDN2Hold;
+        bool legalDN2 = true;
+        bool DN2180 = false;
         #endregion
 
         #region various variables for varying variable things
@@ -70,12 +84,12 @@ namespace Final
         #endregion
 
         //sets rectangle around the obstacles
-        Rectangle leftObstacle = new Rectangle(168, 168, 95, 143);
-        Rectangle rightObstacle = new Rectangle(456, 168, 95, 143);
-        Rectangle nWall = new Rectangle(1, 1, 720, 71);
-        Rectangle eWall = new Rectangle(647, 1, 71, 480);
-        Rectangle sWall = new Rectangle(1, 407, 720, 71);
-        Rectangle wWall = new Rectangle(1, 1, 71, 480);
+        Rectangle leftObstacle = new Rectangle(168, 168, 96, 144);
+        Rectangle rightObstacle = new Rectangle(456, 168, 96, 144);
+        Rectangle nWall = new Rectangle(0, 40, 720, 31);
+        Rectangle eWall = new Rectangle(648, 0, 31, 480);
+        Rectangle sWall = new Rectangle(0, 408, 720, 31);
+        Rectangle wWall = new Rectangle(40, 0, 31, 480);
         Rectangle sword;
 
         //determines whether a key is being pressed or not - DO NOT CHANGE
@@ -91,7 +105,8 @@ namespace Final
             //start the timer when the program starts
             gameTimer.Enabled = true;
             gameTimer.Start();
-            genDNPath();
+            genDNPath(1);
+            genDNPath(2);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -229,94 +244,225 @@ namespace Final
 
         }
 
-        public void checkDNCollision(Rectangle darknut)
+        public void checkDNCollision(Rectangle darknut, int DN)
         {
-            if (darknut.IntersectsWith(nWall)
+            if(DN == 1)
+            {
+                if (darknut.IntersectsWith(nWall)
                 || darknut.IntersectsWith(eWall)
                 || darknut.IntersectsWith(sWall)
                 || darknut.IntersectsWith(wWall)
                 || darknut.IntersectsWith(leftObstacle)
                 || darknut.IntersectsWith(rightObstacle))
 
-            {
-                legalDN = false;
+                {
+                    legalDN = false;
+                }
+                else
+                {
+                    legalDN = true;
+                }
             }
-            else
+            else if (DN == 2)
             {
-                legalDN = true;
+                if (darknut.IntersectsWith(nWall)
+                || darknut.IntersectsWith(eWall)
+                || darknut.IntersectsWith(sWall)
+                || darknut.IntersectsWith(wWall)
+                || darknut.IntersectsWith(leftObstacle)
+                || darknut.IntersectsWith(rightObstacle))
+
+                {
+                    legalDN2 = false;
+                }
+                else
+                {
+                    legalDN2 = true;
+                }
             }
         }
 
-        public void genDNPath()
+        public void genDNPath(int DN)
         {
-            #region get direction
-            directionDNHold = rnd.Next(1, 4);
+            //get direction
+            #region darknut 1
+            if(DN == 1)
+            {
+                if (DN180)
+                {
+                    directionDNHold = rnd.Next(1, 3);
+                }
+                else
+                {
+                    directionDNHold = rnd.Next(1, 4);
+                }
 
-            if(directionDN == "up")
-            {
-                switch (directionDNHold)
+                if (directionDNHold == 3)
                 {
-                    case 1:
-                        directionDN = "down";
-                        break;
-                    case 2:
-                        directionDN = "left";
-                        break;
-                    case 3:
-                        directionDN = "right";
-                        break;
+                    DN180 = true;
+                }
+                else
+                {
+                    DN180 = false;
+                }
+
+                if (directionDN == "up")
+                {
+                    switch (directionDNHold)
+                    {
+                        case 1:
+                            directionDN = "right";
+                            break;
+                        case 2:
+                            directionDN = "left";
+                            break;
+                        case 3:
+                            directionDN = "down";
+                            break;
+                    }
+                }
+                else if (directionDN == "left")
+                {
+                    switch (directionDNHold)
+                    {
+                        case 1:
+                            directionDN = "down";
+                            break;
+                        case 2:
+                            directionDN = "up";
+                            break;
+                        case 3:
+                            directionDN = "right";
+                            break;
+                    }
+                }
+                else if (directionDN == "right")
+                {
+                    switch (directionDNHold)
+                    {
+                        case 1:
+                            directionDN = "down";
+                            break;
+                        case 2:
+                            directionDN = "up";
+                            break;
+                        case 3:
+                            directionDN = "left";
+                            break;
+                    }
+                }
+                else if (directionDN == "down")
+                {
+                    switch (directionDNHold)
+                    {
+                        case 1:
+                            directionDN = "right";
+                            break;
+                        case 2:
+                            directionDN = "left";
+                            break;
+                        case 3:
+                            directionDN = "up";
+                            break;
+                    }
                 }
             }
-            else if (directionDN == "left")
+            #endregion
+            #region darknut 2
+            else if (DN == 2)
             {
-                switch (directionDNHold)
+                if (DN2180)
                 {
-                    case 1:
-                        directionDN = "down";
-                        break;
-                    case 2:
-                        directionDN = "up";
-                        break;
-                    case 3:
-                        directionDN = "right";
-                        break;
+                    directionDN2Hold = rnd.Next(1, 3);
                 }
-            }
-            else if (directionDN == "right")
-            {
-                switch (directionDNHold)
+                else
                 {
-                    case 1:
-                        directionDN = "down";
-                        break;
-                    case 2:
-                        directionDN = "left";
-                        break;
-                    case 3:
-                        directionDN = "up";
-                        break;
+                    directionDN2Hold = rnd.Next(1, 4);
                 }
-            }
-            else if (directionDN == "down")
-            {
-                switch (directionDNHold)
+
+                if (directionDN2Hold == 3)
                 {
-                    case 1:
-                        directionDN = "up";
-                        break;
-                    case 2:
-                        directionDN = "left";
-                        break;
-                    case 3:
-                        directionDN = "right";
-                        break;
+                    DN2180 = true;
+                }
+                else
+                {
+                    DN2180 = false;
+                }
+
+                if (directionDN2 == "up")
+                {
+                    switch (directionDN2Hold)
+                    {
+                        case 1:
+                            directionDN2 = "right";
+                            break;
+                        case 2:
+                            directionDN2 = "left";
+                            break;
+                        case 3:
+                            directionDN2 = "down";
+                            break;
+                    }
+                }
+                else if (directionDN2 == "left")
+                {
+                    switch (directionDN2Hold)
+                    {
+                        case 1:
+                            directionDN2 = "down";
+                            break;
+                        case 2:
+                            directionDN2 = "up";
+                            break;
+                        case 3:
+                            directionDN2 = "right";
+                            break;
+                    }
+                }
+                else if (directionDN2 == "right")
+                {
+                    switch (directionDN2Hold)
+                    {
+                        case 1:
+                            directionDN2 = "down";
+                            break;
+                        case 2:
+                            directionDN2 = "up";
+                            break;
+                        case 3:
+                            directionDN2 = "left";
+                            break;
+                    }
+                }
+                else if (directionDN2 == "down")
+                {
+                    switch (directionDN2Hold)
+                    {
+                        case 1:
+                            directionDN2 = "right";
+                            break;
+                        case 2:
+                            directionDN2 = "left";
+                            break;
+                        case 3:
+                            directionDN2 = "up";
+                            break;
+                    }
                 }
             }
             #endregion
 
             //get distance
-            distDNHold = rnd.Next(1, 6);
-            stepCountDN = 0;
+            if(DN == 1)
+            {
+                distDNHold = rnd.Next(2, 6);
+                stepCountDN = 0;
+            }
+            else if (DN == 2)
+            {
+                distDN2Hold = rnd.Next(2, 6);
+                stepCountDN2 = 0;
+            }
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -324,8 +470,7 @@ namespace Final
             //sets player hitbox
             Rectangle player;
             Rectangle darknut;
-
-            //
+            Rectangle darknut2;
 
             #region move character based on key presses
 
@@ -453,17 +598,17 @@ namespace Final
             }
             #endregion
 
-            #region darknut stuff
+            #region darknut 1 stuff
             if(directionDN == "up")
             {
                 yDN = yDN - speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut);
+                checkDNCollision(darknut, 1);
 
                 if (!legalDN)
                 {
                     yDN = yDN + speedDN;
-                    genDNPath();
+                    genDNPath(1);
                 }
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
             }
@@ -471,12 +616,12 @@ namespace Final
             {
                 xDN = xDN - speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut);
+                checkDNCollision(darknut, 1);
 
                 if (!legalDN)
                 {
                     xDN = xDN + speedDN;
-                    genDNPath();
+                    genDNPath(1);
                 }
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
             }
@@ -484,34 +629,96 @@ namespace Final
             {
                 xDN = xDN + speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut);
+                checkDNCollision(darknut, 1);
 
                 if (!legalDN)
                 {
                     xDN = xDN - speedDN;
-                    genDNPath();
+                    genDNPath(1);
                 }
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
             }
-            else
+            else if (directionDN == "down")
             {
                 yDN = yDN + speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut);
+                checkDNCollision(darknut, 1);
 
                 if (!legalDN)
                 {
                     yDN = yDN - speedDN;
-                    genDNPath();
+                    genDNPath(1);
                 }
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
             }
 
-            stepCountDN = stepCountDN + 3;
+            stepCountDN = stepCountDN + speedDN;
 
-            if(stepCountDN >= distDNHold * 48)
+            if(stepCountDN == distDNHold * 48)
             {
-                genDNPath();
+                genDNPath(1);
+            }
+            #endregion
+
+            #region darknut 2 stuff
+            if (directionDN2 == "up")
+            {
+                yDN2 = yDN2 - speedDN;
+                darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
+                checkDNCollision(darknut2, 2);
+
+                if (!legalDN2)
+                {
+                    yDN2 = yDN2 + speedDN;
+                    genDNPath(2);
+                }
+                darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
+            }
+            else if (directionDN2 == "left")
+            {
+                xDN2 = xDN2 - speedDN;
+                darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
+                checkDNCollision(darknut2, 2);
+
+                if (!legalDN2)
+                {
+                    xDN2 = xDN2 + speedDN;
+                    genDNPath(2);
+                }
+                darknut2 = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+            else if (directionDN2 == "right")
+            {
+                xDN2 = xDN2 + speedDN;
+                darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
+                checkDNCollision(darknut2, 2);
+
+                if (!legalDN2)
+                {
+                    xDN2 = xDN2 - speedDN;
+                    genDNPath(2);
+                }
+                darknut2 = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+            else if (directionDN2 == "down")
+            {
+                yDN2 = yDN2 + speedDN;
+                darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
+                checkDNCollision(darknut2, 2);
+
+                if (!legalDN2)
+                {
+                    yDN2 = yDN2 - speedDN;
+                    genDNPath(2);
+                }
+                darknut2 = new Rectangle(xDN, yDN, widthDN, heightDN);
+            }
+
+            stepCountDN2 = stepCountDN2 + speedDN;
+
+            if (stepCountDN2 == distDN2Hold * 48)
+            {
+                genDNPath(2);
             }
             #endregion
 
@@ -521,7 +728,7 @@ namespace Final
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            //draw sprite
+            //draw sprit1e
             #region move character
             if (direction == "up")
             {
@@ -625,7 +832,7 @@ namespace Final
             }
             #endregion
 
-            #region draw darknut
+            #region draw darknut 1
             if (directionDN == "up")
             {
                 if (timerDN <= 7)
@@ -690,8 +897,70 @@ namespace Final
                     timerDN = 0;
                 }
             }
-            timerDN++;
             #endregion
+            #region draw darknut 2
+            if (directionDN2 == "up")
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(upDN, xDN2 + 2, yDN2, 45, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(up2DN, xDN2 + 2, yDN2, 45, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(up2DN, xDN2 + 2, yDN2, 45, 48);
+                }
+            }
+            else if (directionDN2 == "left")
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(leftDN, xDN2, yDN2, 48, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(left2DN, xDN2, yDN2 + 2, 48, 45);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(left2DN, xDN2, yDN2 + 2, 48, 45);
+                }
+            }
+            else if (directionDN2 == "right")
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(rightDN, xDN2, yDN2, 48, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(right2DN, xDN2, yDN2 + 2, 48, 45);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(right2DN, xDN2, yDN2 + 2, 48, 45);
+                }
+            }
+            else
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(downDN, xDN2 + 2, yDN2, 45, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(down2DN, xDN2 + 2, yDN2, 45, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(down2DN, xDN2 + 2, yDN2, 45, 48);
+                }
+            }
+            #endregion
+            timerDN++;
         }
     }
 }
