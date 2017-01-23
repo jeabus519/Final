@@ -80,6 +80,16 @@ namespace Final
         int distDN3Hold;
         bool legalDN3 = true;
         bool DN3180 = false;
+
+        //bottom right (4)
+        int xDN4 = 599;
+        int yDN4 = 359;
+        int stepCountDN4 = 0;
+        string directionDN4 = "down";
+        int directionDN4Hold;
+        int distDN4Hold;
+        bool legalDN4 = true;
+        bool DN4180 = false;
         #endregion
 
         #region various variables for varying variable things
@@ -117,6 +127,8 @@ namespace Final
             gameTimer.Start();
             genDNPath(1);
             genDNPath(2);
+            genDNPath(3);
+            genDNPath(4);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -254,7 +266,7 @@ namespace Final
 
         }
 
-        public void checkDNCollision(Rectangle darknut, int DN)
+        public void checkDNCollision(Rectangle darknut, Rectangle darknut2, Rectangle darknut3, Rectangle darknut4, int DN)
         {
             if(DN == 1)
             {
@@ -263,7 +275,10 @@ namespace Final
                 || darknut.IntersectsWith(sWall)
                 || darknut.IntersectsWith(wWall)
                 || darknut.IntersectsWith(leftObstacle)
-                || darknut.IntersectsWith(rightObstacle))
+                || darknut.IntersectsWith(rightObstacle)
+                || darknut.IntersectsWith(darknut2)
+                || darknut.IntersectsWith(darknut3)
+                || darknut.IntersectsWith(darknut4))
 
                 {
                     legalDN = false;
@@ -280,7 +295,10 @@ namespace Final
                 || darknut.IntersectsWith(sWall)
                 || darknut.IntersectsWith(wWall)
                 || darknut.IntersectsWith(leftObstacle)
-                || darknut.IntersectsWith(rightObstacle))
+                || darknut.IntersectsWith(rightObstacle)
+                || darknut.IntersectsWith(darknut2)
+                || darknut.IntersectsWith(darknut3)
+                || darknut.IntersectsWith(darknut4))
 
                 {
                     legalDN2 = false;
@@ -297,7 +315,10 @@ namespace Final
                 || darknut.IntersectsWith(sWall)
                 || darknut.IntersectsWith(wWall)
                 || darknut.IntersectsWith(leftObstacle)
-                || darknut.IntersectsWith(rightObstacle))
+                || darknut.IntersectsWith(rightObstacle)
+                || darknut.IntersectsWith(darknut2)
+                || darknut.IntersectsWith(darknut3)
+                || darknut.IntersectsWith(darknut4))
 
                 {
                     legalDN3 = false;
@@ -305,6 +326,26 @@ namespace Final
                 else
                 {
                     legalDN3 = true;
+                }
+            }
+            else if (DN == 4)
+            {
+                if (darknut.IntersectsWith(nWall)
+                || darknut.IntersectsWith(eWall)
+                || darknut.IntersectsWith(sWall)
+                || darknut.IntersectsWith(wWall)
+                || darknut.IntersectsWith(leftObstacle)
+                || darknut.IntersectsWith(rightObstacle)
+                || darknut.IntersectsWith(darknut2)
+                || darknut.IntersectsWith(darknut3)
+                || darknut.IntersectsWith(darknut4))
+
+                {
+                    legalDN4 = false;
+                }
+                else
+                {
+                    legalDN4 = true;
                 }
             }
         }
@@ -562,7 +603,87 @@ namespace Final
             }
             #endregion
             #region darknut 4
+            if (DN == 4)
+            {
+                if (DN4180)
+                {
+                    directionDN4Hold = rnd.Next(1, 3);
+                }
+                else
+                {
+                    directionDN4Hold = rnd.Next(1, 4);
+                }
 
+                if (directionDN4Hold == 3)
+                {
+                    DN4180 = true;
+                }
+                else
+                {
+                    DN4180 = false;
+                }
+
+                if (directionDN4 == "up")
+                {
+                    switch (directionDN4Hold)
+                    {
+                        case 1:
+                            directionDN4 = "right";
+                            break;
+                        case 2:
+                            directionDN4 = "left";
+                            break;
+                        case 3:
+                            directionDN4 = "down";
+                            break;
+                    }
+                }
+                else if (directionDN4 == "left")
+                {
+                    switch (directionDN4Hold)
+                    {
+                        case 1:
+                            directionDN4 = "down";
+                            break;
+                        case 2:
+                            directionDN4 = "up";
+                            break;
+                        case 3:
+                            directionDN4 = "right";
+                            break;
+                    }
+                }
+                else if (directionDN4 == "right")
+                {
+                    switch (directionDN4Hold)
+                    {
+                        case 1:
+                            directionDN4 = "down";
+                            break;
+                        case 2:
+                            directionDN4 = "up";
+                            break;
+                        case 3:
+                            directionDN4 = "left";
+                            break;
+                    }
+                }
+                else if (directionDN4 == "down")
+                {
+                    switch (directionDN4Hold)
+                    {
+                        case 1:
+                            directionDN4 = "right";
+                            break;
+                        case 2:
+                            directionDN4 = "left";
+                            break;
+                        case 3:
+                            directionDN4 = "up";
+                            break;
+                    }
+                }
+            }
             #endregion
 
             //get distance
@@ -581,15 +702,21 @@ namespace Final
                 distDN3Hold = rnd.Next(2, 6);
                 stepCountDN3 = 0;
             }
+            else if (DN == 4)
+            {
+                distDN4Hold = rnd.Next(2, 6);
+                stepCountDN4 = 0;
+            }
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             //sets player hitbox
             Rectangle player;
-            Rectangle darknut;
-            Rectangle darknut2;
-            Rectangle darknut3;
+            Rectangle darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
+            Rectangle darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
+            Rectangle darknut3 = new Rectangle(xDN3, yDN3, widthDN, heightDN);
+            Rectangle darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
 
             #region move character based on key presses
 
@@ -722,7 +849,7 @@ namespace Final
             {
                 yDN = yDN - speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut, 1);
+                checkDNCollision(darknut, darknut2, darknut3, darknut4, 1);
 
                 if (!legalDN)
                 {
@@ -735,7 +862,7 @@ namespace Final
             {
                 xDN = xDN - speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut, 1);
+                checkDNCollision(darknut, darknut2, darknut3, darknut4, 1);
 
                 if (!legalDN)
                 {
@@ -748,7 +875,7 @@ namespace Final
             {
                 xDN = xDN + speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut, 1);
+                checkDNCollision(darknut, darknut2, darknut3, darknut4, 1);
 
                 if (!legalDN)
                 {
@@ -761,7 +888,7 @@ namespace Final
             {
                 yDN = yDN + speedDN;
                 darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
-                checkDNCollision(darknut, 1);
+                checkDNCollision(darknut, darknut2, darknut3, darknut4, 1);
 
                 if (!legalDN)
                 {
@@ -778,13 +905,13 @@ namespace Final
                 genDNPath(1);
             }
             #endregion
-
+            darknut = new Rectangle(xDN, yDN, widthDN, heightDN);
             #region darknut 2 stuff
             if (directionDN2 == "up")
             {
                 yDN2 = yDN2 - speedDN;
                 darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
-                checkDNCollision(darknut2, 2);
+                checkDNCollision(darknut2, darknut, darknut3, darknut4, 2);
 
                 if (!legalDN2)
                 {
@@ -797,7 +924,7 @@ namespace Final
             {
                 xDN2 = xDN2 - speedDN;
                 darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
-                checkDNCollision(darknut2, 2);
+                checkDNCollision(darknut2, darknut, darknut3, darknut4, 2);
 
                 if (!legalDN2)
                 {
@@ -810,7 +937,7 @@ namespace Final
             {
                 xDN2 = xDN2 + speedDN;
                 darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
-                checkDNCollision(darknut2, 2);
+                checkDNCollision(darknut2, darknut, darknut3, darknut4, 2);
 
                 if (!legalDN2)
                 {
@@ -823,7 +950,7 @@ namespace Final
             {
                 yDN2 = yDN2 + speedDN;
                 darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
-                checkDNCollision(darknut2, 2);
+                checkDNCollision(darknut2, darknut, darknut3, darknut4, 2);
 
                 if (!legalDN2)
                 {
@@ -840,13 +967,13 @@ namespace Final
                 genDNPath(2);
             }
             #endregion
-
+            darknut2 = new Rectangle(xDN2, yDN2, widthDN, heightDN);
             #region darknut 3 stuff
             if (directionDN3 == "up")
             {
                 yDN3 = yDN3 - speedDN;
                 darknut3 = new Rectangle(xDN3, yDN3, widthDN, heightDN);
-                checkDNCollision(darknut3, 3);
+                checkDNCollision(darknut3, darknut, darknut2, darknut4, 3);
 
                 if (!legalDN3)
                 {
@@ -859,7 +986,7 @@ namespace Final
             {
                 xDN3 = xDN3 - speedDN;
                 darknut3 = new Rectangle(xDN3, yDN3, widthDN, heightDN);
-                checkDNCollision(darknut3, 3);
+                checkDNCollision(darknut3, darknut, darknut2, darknut4, 3);
 
                 if (!legalDN3)
                 {
@@ -872,7 +999,7 @@ namespace Final
             {
                 xDN3 = xDN3 + speedDN;
                 darknut3 = new Rectangle(xDN3, yDN3, widthDN, heightDN);
-                checkDNCollision(darknut3, 3);
+                checkDNCollision(darknut3, darknut, darknut2, darknut4, 3);
 
                 if (!legalDN3)
                 {
@@ -885,7 +1012,7 @@ namespace Final
             {
                 yDN3 = yDN3 + speedDN;
                 darknut3 = new Rectangle(xDN3, yDN3, widthDN, heightDN);
-                checkDNCollision(darknut3, 3);
+                checkDNCollision(darknut3, darknut, darknut2, darknut4, 3);
 
                 if (!legalDN3)
                 {
@@ -902,6 +1029,69 @@ namespace Final
                 genDNPath(3);
             }
             #endregion
+            darknut3 = new Rectangle(xDN3, yDN3, widthDN, heightDN);
+            #region darknut 4 stuff
+            if (directionDN4 == "up")
+            {
+                yDN4 = yDN4 - speedDN;
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+                checkDNCollision(darknut4, darknut, darknut2, darknut3, 4);
+
+                if (!legalDN4)
+                {
+                    yDN4 = yDN4 + speedDN;
+                    genDNPath(4);
+                }
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+            }
+            else if (directionDN4 == "left")
+            {
+                xDN4 = xDN4 - speedDN;
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+                checkDNCollision(darknut4, darknut, darknut2, darknut3, 4);
+
+                if (!legalDN4)
+                {
+                    xDN4 = xDN4 + speedDN;
+                    genDNPath(4);
+                }
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+            }
+            else if (directionDN4 == "right")
+            {
+                xDN4 = xDN4 + speedDN;
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+                checkDNCollision(darknut4, darknut, darknut2, darknut3, 4);
+
+                if (!legalDN4)
+                {
+                    xDN4 = xDN4 - speedDN;
+                    genDNPath(4);
+                }
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+            }
+            else if (directionDN4 == "down")
+            {
+                yDN4 = yDN4 + speedDN;
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+                checkDNCollision(darknut4, darknut, darknut2, darknut3, 4);
+
+                if (!legalDN4)
+                {
+                    yDN4 = yDN4 - speedDN;
+                    genDNPath(4);
+                }
+                darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
+            }
+
+            stepCountDN4 = stepCountDN4 + speedDN;
+
+            if (stepCountDN4 == distDN4Hold * 48)
+            {
+                genDNPath(4);
+            }
+            #endregion
+            darknut4 = new Rectangle(xDN4, yDN4, widthDN, heightDN);
 
             //refresh the screen, which causes the Form1_Paint method to run
             Refresh();
@@ -909,7 +1099,7 @@ namespace Final
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            //draw sprit1e
+            //draw sprite
             #region move character
             if (direction == "up")
             {
@@ -1200,6 +1390,68 @@ namespace Final
                 else
                 {
                     e.Graphics.DrawImage(down2DN, xDN3 + 2, yDN3, 45, 48);
+                }
+            }
+            #endregion
+            #region draw darknut 4
+            if (directionDN4 == "up")
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(upDN, xDN4 + 2, yDN4, 45, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(up2DN, xDN4 + 2, yDN4, 45, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(up2DN, xDN4 + 2, yDN4, 45, 48);
+                }
+            }
+            else if (directionDN4 == "left")
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(leftDN, xDN4, yDN4, 48, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(left2DN, xDN4, yDN4 + 2, 48, 45);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(left2DN, xDN4, yDN4 + 2, 48, 45);
+                }
+            }
+            else if (directionDN4 == "right")
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(rightDN, xDN4, yDN4, 48, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(right2DN, xDN4, yDN4 + 2, 48, 45);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(right2DN, xDN4, yDN4 + 2, 48, 45);
+                }
+            }
+            else
+            {
+                if (timerDN <= 7)
+                {
+                    e.Graphics.DrawImage(downDN, xDN4 + 2, yDN4, 45, 48);
+                }
+                else if (timerDN <= 13)
+                {
+                    e.Graphics.DrawImage(down2DN, xDN4 + 2, yDN4, 45, 48);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(down2DN, xDN4 + 2, yDN4, 45, 48);
                 }
             }
             #endregion
