@@ -772,7 +772,6 @@ namespace Final
             }
         }
 
-
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             if (lifeHero > 0 && countDN > 0)
@@ -1232,7 +1231,6 @@ namespace Final
             }
         }
         
-
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             //draw life hearts
