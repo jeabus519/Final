@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Final
 {
@@ -14,6 +15,7 @@ namespace Final
         #region image declarations and stuff
         Image fullHeart = Properties.Resources.full_heart;
         Image emptyHeart = Properties.Resources.empty_heart;
+        Image celebration = Properties.Resources.celebration;
 
         Image upStand = Properties.Resources.up_stand;
         Image rightStand = Properties.Resources.right_stand;
@@ -50,7 +52,10 @@ namespace Final
         int damageTimer;
         bool heroHurt = false;
         int opacityVal = 0;
-        
+
+        SoundPlayer labyrinth = new SoundPlayer(Properties.Resources._04_labyrinth);
+        SoundPlayer win = new SoundPlayer(Properties.Resources._06_triforce);
+        SoundPlayer lose = new SoundPlayer(Properties.Resources._07_game_over);
 
         #region initial starting values and other variables for Darknuts
         //universal
@@ -114,6 +119,7 @@ namespace Final
         int timer;
         int attackTimer;
         Random rnd = new Random();
+        bool soundPlayed = false;
         #endregion
 
         //sets rectangle around the obstacles
@@ -142,6 +148,8 @@ namespace Final
             genDNPath(2);
             genDNPath(3);
             genDNPath(4);
+
+            labyrinth.PlayLooping();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -767,7 +775,7 @@ namespace Final
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            if (lifeHero > 0)
+            if (lifeHero > 0 && countDN > 0)
             {
                 switch (countDN)
                 {
@@ -1254,7 +1262,7 @@ namespace Final
             }
 
             //draw sprite
-            if (lifeHero > 0)
+            if (lifeHero > 0 && countDN > 0)
             {
                 #region move character
                 if (direction == "up")
@@ -1375,265 +1383,286 @@ namespace Final
 
                 if (opacityVal == 255)
                 {
-                    Font drawFont = new Font("Consolas", 32, FontStyle.Bold);
+                    Font drawFont = new Font("The Legend of Zelda NES", 32, FontStyle.Bold);
                     SolidBrush drawBrush = new SolidBrush(Color.White);
-                    e.Graphics.DrawString("You lose!", drawFont, drawBrush, 50, 40);
+                    if(lifeHero > 0)
+                    {
+                        e.Graphics.DrawImage(celebration, xHero + 5, yHero - 4, 39, 48);
+                        e.Graphics.DrawString("You win!", drawFont, drawBrush, 50, 250);
+                        if (!soundPlayed)
+                        {
+                            win.Play();
+                            soundPlayed = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString("You lose!", drawFont, drawBrush, 50, 250);
+                        if (!soundPlayed)
+                        {
+                            lose.Play();
+                            soundPlayed = true;
+                        }
+                    }
                 }
             }
 
-            #region draw darknut 1
-            if (directionDN == "up")
+            if (countDN > 0)
             {
-                if (timerDN <= 7)
+                #region draw darknut 1
+                if (directionDN == "up")
                 {
-                    e.Graphics.DrawImage(upDN, xDN + 2, yDN, 45, 48);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(upDN, xDN + 2, yDN, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN + 2, yDN, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN + 2, yDN, 45, 48);
+                        timerDN = 0;
+                    }
                 }
-                else if (timerDN <= 13)
+                else if (directionDN == "left")
                 {
-                    e.Graphics.DrawImage(up2DN, xDN + 2, yDN, 45, 48);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(leftDN, xDN, yDN, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN, yDN + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN, yDN + 2, 48, 45);
+                        timerDN = 0;
+                    }
+                }
+                else if (directionDN == "right")
+                {
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(rightDN, xDN, yDN, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN, yDN + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN, yDN + 2, 48, 45);
+                        timerDN = 0;
+                    }
                 }
                 else
                 {
-                    e.Graphics.DrawImage(up2DN, xDN + 2, yDN, 45, 48);
-                    timerDN = 0;
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(downDN, xDN + 2, yDN, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN + 2, yDN, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN + 2, yDN, 45, 48);
+                        timerDN = 0;
+                    }
                 }
-            }
-            else if (directionDN == "left")
-            {
-                if (timerDN <= 7)
+                #endregion
+                #region draw darknut 2
+                if (directionDN2 == "up")
                 {
-                    e.Graphics.DrawImage(leftDN, xDN, yDN, 48, 48);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(upDN, xDN2 + 2, yDN2, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN2 + 2, yDN2, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN2 + 2, yDN2, 45, 48);
+                    }
                 }
-                else if (timerDN <= 13)
+                else if (directionDN2 == "left")
                 {
-                    e.Graphics.DrawImage(left2DN, xDN, yDN + 2, 48, 45);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(leftDN, xDN2, yDN2, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN2, yDN2 + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN2, yDN2 + 2, 48, 45);
+                    }
+                }
+                else if (directionDN2 == "right")
+                {
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(rightDN, xDN2, yDN2, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN2, yDN2 + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN2, yDN2 + 2, 48, 45);
+                    }
                 }
                 else
                 {
-                    e.Graphics.DrawImage(left2DN, xDN, yDN + 2, 48, 45);
-                    timerDN = 0;
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(downDN, xDN2 + 2, yDN2, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN2 + 2, yDN2, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN2 + 2, yDN2, 45, 48);
+                    }
                 }
-            }
-            else if (directionDN == "right")
-            {
-                if (timerDN <= 7)
+                #endregion
+                #region draw darknut 3
+                if (directionDN3 == "up")
                 {
-                    e.Graphics.DrawImage(rightDN, xDN, yDN, 48, 48);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(upDN, xDN3 + 2, yDN3, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN3 + 2, yDN3, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN3 + 2, yDN3, 45, 48);
+                    }
                 }
-                else if (timerDN <= 13)
+                else if (directionDN3 == "left")
                 {
-                    e.Graphics.DrawImage(right2DN, xDN, yDN + 2, 48, 45);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(leftDN, xDN3, yDN3, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN3, yDN3 + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN3, yDN3 + 2, 48, 45);
+                    }
+                }
+                else if (directionDN3 == "right")
+                {
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(rightDN, xDN3, yDN3, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN3, yDN3 + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN3, yDN3 + 2, 48, 45);
+                    }
                 }
                 else
                 {
-                    e.Graphics.DrawImage(right2DN, xDN, yDN + 2, 48, 45);
-                    timerDN = 0;
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(downDN, xDN3 + 2, yDN3, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN3 + 2, yDN3, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN3 + 2, yDN3, 45, 48);
+                    }
                 }
-            }
-            else
-            {
-                if (timerDN <= 7)
+                #endregion
+                #region draw darknut 4
+                if (directionDN4 == "up")
                 {
-                    e.Graphics.DrawImage(downDN, xDN + 2, yDN, 45, 48);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(upDN, xDN4 + 2, yDN4, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN4 + 2, yDN4, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(up2DN, xDN4 + 2, yDN4, 45, 48);
+                    }
                 }
-                else if (timerDN <= 13)
+                else if (directionDN4 == "left")
                 {
-                    e.Graphics.DrawImage(down2DN, xDN + 2, yDN, 45, 48);
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(leftDN, xDN4, yDN4, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN4, yDN4 + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(left2DN, xDN4, yDN4 + 2, 48, 45);
+                    }
+                }
+                else if (directionDN4 == "right")
+                {
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(rightDN, xDN4, yDN4, 48, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN4, yDN4 + 2, 48, 45);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(right2DN, xDN4, yDN4 + 2, 48, 45);
+                    }
                 }
                 else
                 {
-                    e.Graphics.DrawImage(down2DN, xDN + 2, yDN, 45, 48);
-                    timerDN = 0;
+                    if (timerDN <= 7)
+                    {
+                        e.Graphics.DrawImage(downDN, xDN4 + 2, yDN4, 45, 48);
+                    }
+                    else if (timerDN <= 13)
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN4 + 2, yDN4, 45, 48);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(down2DN, xDN4 + 2, yDN4, 45, 48);
+                    }
                 }
+                #endregion
+                timerDN++;
             }
-            #endregion
-            #region draw darknut 2
-            if (directionDN2 == "up")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(upDN, xDN2 + 2, yDN2, 45, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(up2DN, xDN2 + 2, yDN2, 45, 48);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(up2DN, xDN2 + 2, yDN2, 45, 48);
-                }
-            }
-            else if (directionDN2 == "left")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(leftDN, xDN2, yDN2, 48, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(left2DN, xDN2, yDN2 + 2, 48, 45);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(left2DN, xDN2, yDN2 + 2, 48, 45);
-                }
-            }
-            else if (directionDN2 == "right")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(rightDN, xDN2, yDN2, 48, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(right2DN, xDN2, yDN2 + 2, 48, 45);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(right2DN, xDN2, yDN2 + 2, 48, 45);
-                }
-            }
-            else
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(downDN, xDN2 + 2, yDN2, 45, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(down2DN, xDN2 + 2, yDN2, 45, 48);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(down2DN, xDN2 + 2, yDN2, 45, 48);
-                }
-            }
-            #endregion
-            #region draw darknut 3
-            if (directionDN3 == "up")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(upDN, xDN3 + 2, yDN3, 45, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(up2DN, xDN3 + 2, yDN3, 45, 48);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(up2DN, xDN3 + 2, yDN3, 45, 48);
-                }
-            }
-            else if (directionDN3 == "left")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(leftDN, xDN3, yDN3, 48, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(left2DN, xDN3, yDN3 + 2, 48, 45);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(left2DN, xDN3, yDN3 + 2, 48, 45);
-                }
-            }
-            else if (directionDN3 == "right")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(rightDN, xDN3, yDN3, 48, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(right2DN, xDN3, yDN3 + 2, 48, 45);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(right2DN, xDN3, yDN3 + 2, 48, 45);
-                }
-            }
-            else
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(downDN, xDN3 + 2, yDN3, 45, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(down2DN, xDN3 + 2, yDN3, 45, 48);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(down2DN, xDN3 + 2, yDN3, 45, 48);
-                }
-            }
-            #endregion
-            #region draw darknut 4
-            if (directionDN4 == "up")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(upDN, xDN4 + 2, yDN4, 45, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(up2DN, xDN4 + 2, yDN4, 45, 48);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(up2DN, xDN4 + 2, yDN4, 45, 48);
-                }
-            }
-            else if (directionDN4 == "left")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(leftDN, xDN4, yDN4, 48, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(left2DN, xDN4, yDN4 + 2, 48, 45);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(left2DN, xDN4, yDN4 + 2, 48, 45);
-                }
-            }
-            else if (directionDN4 == "right")
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(rightDN, xDN4, yDN4, 48, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(right2DN, xDN4, yDN4 + 2, 48, 45);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(right2DN, xDN4, yDN4 + 2, 48, 45);
-                }
-            }
-            else
-            {
-                if (timerDN <= 7)
-                {
-                    e.Graphics.DrawImage(downDN, xDN4 + 2, yDN4, 45, 48);
-                }
-                else if (timerDN <= 13)
-                {
-                    e.Graphics.DrawImage(down2DN, xDN4 + 2, yDN4, 45, 48);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(down2DN, xDN4 + 2, yDN4, 45, 48);
-                }
-            }
-            #endregion
-            timerDN++;
         }
     }
 }

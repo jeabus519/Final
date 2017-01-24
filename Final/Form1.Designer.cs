@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.stepTimer = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -42,6 +43,17 @@
             // 
             this.stepTimer.Interval = 16;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("The Legend of Zelda NES", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(41, 512);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(637, 15);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Controls: Arrow keys to move, space to attack";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -49,7 +61,8 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::Final.Properties.Resources.arena;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(810, 480);
+            this.ClientSize = new System.Drawing.Size(810, 570);
+            this.Controls.Add(this.label1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
@@ -58,6 +71,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -65,6 +79,7 @@
 
         private System.Windows.Forms.Timer gameTimer;
         private System.Windows.Forms.Timer stepTimer;
+        private System.Windows.Forms.Label label1;
     }
 }
 

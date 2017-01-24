@@ -193,6 +193,27 @@
   <ItemGroup>
     <None Include="Resources\full heart.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\celebration.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\04-labyrinth.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\06-triforce.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\07-game-over.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\04-labyrinth.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\06-triforce.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\07-game-over.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
