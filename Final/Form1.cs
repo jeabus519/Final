@@ -1,4 +1,8 @@
-﻿using System;
+﻿/// created by : Michael Peterman
+/// date       : January 24, 2017
+/// description: A simple game which is created as if it were a room in the NES game The Legend of Zelda.
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
