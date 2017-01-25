@@ -32,6 +32,7 @@
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.stepTimer = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -54,6 +55,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Controls: Arrow keys to move, space to attack";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("The Legend of Zelda NES", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(150, 537);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(203, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Escape to quit";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -62,6 +74,7 @@
             this.BackgroundImage = global::Final.Properties.Resources.arena;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(810, 570);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -80,6 +93,7 @@
         private System.Windows.Forms.Timer gameTimer;
         private System.Windows.Forms.Timer stepTimer;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

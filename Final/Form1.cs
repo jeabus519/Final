@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Media;
+using System.Diagnostics;
 
 namespace Final
 {
@@ -136,7 +137,7 @@ namespace Final
         Rectangle sword;
 
         //determines whether a key is being pressed or not - DO NOT CHANGE
-        Boolean leftArrowDown, downArrowDown, rightArrowDown, upArrowDown, spaceDown;
+        Boolean leftArrowDown, downArrowDown, rightArrowDown, upArrowDown, spaceDown, nDown, escapeDown;
 
         //create graphic objects
         SolidBrush drawBrush = new SolidBrush(Color.Black);
@@ -209,6 +210,12 @@ namespace Final
                         movementPaused = true;
                     }
                     break;
+                case Keys.N:
+                    nDown = true;
+                    break;
+                case Keys.Escape:
+                    escapeDown = true;
+                    break;
                 default:
                     break;
             }
@@ -265,6 +272,12 @@ namespace Final
                     break;
                 case Keys.Space:
                     spaceDown = false;
+                    break;
+                case Keys.N:
+                    nDown = false;
+                    break;
+                case Keys.Escape:
+                    escapeDown = false;
                     break;
                 default:
                     break;
@@ -1228,10 +1241,28 @@ namespace Final
                 Refresh();
 
                 checkSwordCollision(sword, darknut, darknut2, darknut3, darknut4);
+
+                if (escapeDown)
+                {
+                    Process.GetCurrentProcess().Kill();
+                }
             }
             else
             {
                 Refresh();
+                if(nDown)
+                {
+                    //run the program again and close this one
+                    Process.Start(Application.StartupPath + "\\Final.exe");
+                    //or you can use Application.ExecutablePath
+
+                    //close this one
+                    Process.GetCurrentProcess().Kill();
+                }
+                if (escapeDown)
+                {
+                    Process.GetCurrentProcess().Kill();
+                }
             }
         }
         
@@ -1395,6 +1426,7 @@ namespace Final
                         {
                             win.Play();
                             soundPlayed = true;
+                            label2.Text += ", N to restart";
                         }
                     }
                     else
@@ -1404,6 +1436,7 @@ namespace Final
                         {
                             lose.Play();
                             soundPlayed = true;
+                            label2.Text += ", N to restart";
                         }
                     }
                 }
